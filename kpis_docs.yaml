@@ -1,0 +1,108 @@
+openapi: 3.0.3
+
+info:
+  title: KPIS_API
+  description: Api de validação de email de usuários pré cadastrados e gerador de reports referentes ao headcount e turnover atrelados aos liderados diretos e indiretos de cada usuário cadastrado..
+  version: 1.0.0
+
+paths:
+  "/validateUserEmail":
+    post:
+      tags: ["user"]
+      summary: Valida existência de email pré cadastrado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userEmail"
+        required: true
+      responses:
+        "200":
+          description: Usuário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "401":
+          description: EMAIL_NOT_REGISTERED
+
+  "/report/leader/{leaderId}/subordinates":
+    parameters:
+    - name: leaderId 
+      in: path
+      description: ID do líder
+      required: true
+      schema:
+        type: string
+
+    get:
+      tags: ["report"]
+      summary: Gera report referente ao headcount e turnover dos liderados direta e indiretamente por um líder
+      responses:
+        "200":
+          description: Report gerado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/report"
+
+components:
+  schemas:
+    userEmail:
+      type: object
+      properties:
+        email:
+          type: string
+          description: email do usuário
+    user:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID do usuário
+        status:
+          type: string
+          description: Status do usuário (ativo ou inativo)
+        name:
+          type: string
+          description: ID do usuário
+        email:
+          type: string
+          description: email do usuário
+        manager_email:
+          type: string
+          description: email do líder do usuário
+        admission_date:
+          type: string
+          description: data de admissão do usuário
+        resignation_date:
+          type: string
+          description: data de demissão do usuário
+        role:
+          type: string
+          description: cargo do usuário
+    report:
+      type: object
+      properties:
+        turnover:
+          type: array
+          items:
+            type: object
+            properties:
+              x:
+                type: string
+                description: mês e ano referente ao turnover
+              y:
+                type: string
+                description: dado referente ao turnover do mês base
+        headcount:
+          type: array
+          items:
+            type: object
+            properties:
+              x:
+                type: string
+                description: mês e ano referentes ao headcount
+              y:
+                type: string
+                description: dado referente ao headcount do mês base
