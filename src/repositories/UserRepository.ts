@@ -26,7 +26,9 @@ export default class UserRepository {
           INNER JOIN subordinates o 
           ON o.email = e.manager_email
         )
-      SELECT * FROM subordinates;`
+      SELECT * FROM subordinates 
+      ORDER BY admission_date ASC
+      ;`
     );
   }
 }
