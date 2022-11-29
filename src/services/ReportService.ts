@@ -1,6 +1,9 @@
 import UserRepository from "../repositories/UserRepository";
 import ApiError from "../helpers/ApiError";
-import * as dayjs from "dayjs";
+import {
+  formatDate,
+  monthsArrayFromAnInitialYearToNow,
+} from "../helpers/datesHelper";
 import { User } from "../entities/User";
 
 export default class ReportService {
@@ -12,25 +15,13 @@ export default class ReportService {
 
     const subordinates = await UserRepository.findSubordinates(id);
 
-    const formatDate = (date: Date) => dayjs(date).format("YYYY/MM");
-
-    const monthsWithData = <string[]>subordinates.reduce(
-      (months: string[], subordinate: User) => {
-        subordinate.resignation_date &&
-          months.push(formatDate(subordinate.resignation_date));
-
-        return [...months, formatDate(subordinate.admission_date)];
-      },
-      []
-    );
-
-    const orderedMonths = [...new Set(monthsWithData)].sort((dateA, dateB) =>
-      new Date(dateA) > new Date(dateB) ? 1 : -1
+    const monthsByYears = monthsArrayFromAnInitialYearToNow(
+      subordinates[0].admission_date
     );
 
     let activeSubordinates = 0;
 
-    const headcount = orderedMonths.reduce(
+    return monthsByYears.reduce(
       (obj, month) => {
         const admissions = subordinates.filter((subordinate: User) =>
           String(formatDate(subordinate.admission_date)).includes(month)
@@ -43,23 +34,19 @@ export default class ReportService {
         ).length;
 
         const activeSubordinatesOnMonthStart = admissions + activeSubordinates;
-        activeSubordinates = activeSubordinatesOnMonthStart;
-
         const activeSubordinatesOnMonthEnd = activeSubordinates - resignations;
-        activeSubordinates = activeSubordinates - resignations;
+        activeSubordinates += admissions - resignations;
 
         const headcount =
           (activeSubordinatesOnMonthStart + activeSubordinatesOnMonthEnd) / 2;
-        const turnover = resignations / headcount;
+        const turnover = resignations * 100 / headcount;
 
         return {
-          headcount: [...obj.headcount, { x: month, y: headcount.toFixed(1) }],
-          turnover: [...obj.turnover, { x: month, y: turnover.toFixed(1) }],
+          headcount: [...obj.headcount, { x: month, y: headcount.toFixed(0) }],
+          turnover: [...obj.turnover, { x: month, y: turnover.toFixed(0) }],
         };
       },
       { headcount: [], turnover: [] }
     );
-
-    return headcount;
   }
 }
