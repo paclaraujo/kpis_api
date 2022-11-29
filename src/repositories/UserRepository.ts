@@ -12,7 +12,21 @@ export default class UserRepository {
 
   static async findSubordinates(id: number) {
     return await AppDataSource.getRepository(User).query(
-      `WITH RECURSIVE subordinates AS (SELECT * FROM public.user WHERE id=${id} UNION ALL SELECT  e.* FROM public.user INNER JOIN subordinates o ON o.email = e.manager_email) SELECT * FROM subordinates;`
+      `WITH RECURSIVE subordinates AS (
+        SELECT       
+          *
+        FROM       
+          public.user
+        WHERE id=${id}
+        UNION ALL
+        SELECT 
+          e.*
+        FROM 
+          public.user e
+          INNER JOIN subordinates o 
+          ON o.email = e.manager_email
+        )
+      SELECT * FROM subordinates;`
     );
   }
 }
