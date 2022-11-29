@@ -1,6 +1,5 @@
 import ReportService from "../../services/ReportService";
 import UserRepository from "../../repositories/UserRepository";
-import { User } from "../../entities/User";
 
 describe("Given ReportService", () => {
   describe(".getReport", () => {
@@ -38,8 +37,8 @@ describe("Given ReportService", () => {
             name: "Mitchell Peters",
             email: "mitchellpeters@kpis.tech",
             manager_email: "sharonbarr@kpis.tech",
-            admission_date: "2020-03-16T03:00:00.000Z",
-            resignation_date: "2021-02-14T03:00:00.000Z",
+            admission_date: "2022-03-16T03:00:00.000Z",
+            resignation_date: "2022-07-14T03:00:00.000Z",
             role: "Engenheiro",
           },
           {
@@ -48,7 +47,7 @@ describe("Given ReportService", () => {
             name: "Adam Sanders",
             email: "adamsanders@kpis.tech",
             manager_email: "mitchellpeters@kpis.tech",
-            admission_date: "2020-04-25T03:00:00.000Z",
+            admission_date: "2022-04-25T03:00:00.000Z",
             resignation_date: null,
             role: "Analista",
           },
@@ -58,17 +57,7 @@ describe("Given ReportService", () => {
             name: "John Jackson",
             email: "johnjackson@kpis.tech",
             manager_email: "mitchellpeters@kpis.tech",
-            admission_date: "2021-09-28T03:00:00.000Z",
-            resignation_date: null,
-            role: "Analista",
-          },
-          {
-            id: "8",
-            status: "ativo",
-            name: "Matthew Beasley",
-            email: "matthewbeasley@kpis.tech",
-            manager_email: "mitchellpeters@kpis.tech",
-            admission_date: "2020-04-09T03:00:00.000Z",
+            admission_date: "2022-09-28T03:00:00.000Z",
             resignation_date: null,
             role: "Analista",
           },
@@ -79,16 +68,32 @@ describe("Given ReportService", () => {
         expect(UserRepository.findSubordinates).toHaveBeenCalledWith(0);
         expect(report).toEqual({
           headcount: [
-            { x: "2020/03", y: "1.0" },
-            { x: "2020/04", y: "3.0" },
-            { x: "2021/02", y: "2.5" },
-            { x: "2021/09", y: "3.0" },
+            { x: "01/2022", y: "0" },
+            { x: "02/2022", y: "0" },
+            { x: "03/2022", y: "1" },
+            { x: "04/2022", y: "2" },
+            { x: "05/2022", y: "2" },
+            { x: "06/2022", y: "2" },
+            { x: "07/2022", y: "2" },
+            { x: "08/2022", y: "1" },
+            { x: "09/2022", y: "2" },
+            { x: "10/2022", y: "2" },
+            { x: "11/2022", y: "2" },
+            { x: "12/2022", y: "2" },
           ],
           turnover: [
-            { x: "2020/03", y: "0.0" },
-            { x: "2020/04", y: "0.0" },
-            { x: "2021/02", y: "0.4" },
-            { x: "2021/09", y: "0.0" },
+            { x: "01/2022", y: "0" },
+            { x: "02/2022", y: "0" },
+            { x: "03/2022", y: "0" },
+            { x: "04/2022", y: "0" },
+            { x: "05/2022", y: "0" },
+            { x: "06/2022", y: "0" },
+            { x: "07/2022", y: "67" },
+            { x: "08/2022", y: "0" },
+            { x: "09/2022", y: "0" },
+            { x: "10/2022", y: "0" },
+            { x: "11/2022", y: "0" },
+            { x: "12/2022", y: "0" },
           ],
         });
       });

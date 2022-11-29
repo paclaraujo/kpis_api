@@ -39,7 +39,7 @@ export default class ReportService {
 
         const headcount =
           (activeSubordinatesOnMonthStart + activeSubordinatesOnMonthEnd) / 2;
-        const turnover = resignations * 100 / headcount;
+        const turnover = headcount > 0 ? (resignations * 100) / headcount : 0;
 
         return {
           headcount: [...obj.headcount, { x: month, y: headcount.toFixed(0) }],
