@@ -1,6 +1,6 @@
 import UserService from "../../services/UserService";
 import UserRepository from "../../repositories/UserRepository";
-import { User } from "../../entities/User";
+import { Users } from "../../entities/Users";
 
 describe("Given UserService", () => {
   describe(".validateUserEmail", () => {
@@ -20,7 +20,7 @@ describe("Given UserService", () => {
 
     describe("when email passed exists on DB", () => {
       it("should return user info", async () => {
-        const userInfo: User = {
+        const userInfo: Users = {
           id: 0,
           status: "ativo",
           name: "Danielle Winters",

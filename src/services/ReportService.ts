@@ -4,7 +4,7 @@ import {
   formatDate,
   monthsArrayFromAnInitialYearToNow,
 } from "../helpers/datesHelper";
-import { User } from "../entities/User";
+import { Users } from "../entities/Users";
 
 export default class ReportService {
   static async getReport(id: number) {
@@ -16,14 +16,14 @@ export default class ReportService {
     const subordinates = await UserRepository.findSubordinates(id);
 
     const totalActiveSubordinates = subordinates.filter(
-      (subordinate: User) => subordinate.status === "ativo"
+      (subordinate: Users) => subordinate.status === "ativo"
     ).length;
 
     const totalInactiveSubordinates =
       subordinates.length - totalActiveSubordinates;
 
     const directSubordinates = subordinates.filter(
-      (subordinate: User) =>
+      (subordinate: Users) =>
         subordinate.id !== id && subordinate.manager_email === user.email
     ).length;
 
@@ -37,12 +37,12 @@ export default class ReportService {
 
     const reportTurnoverAndHeadcount = monthsByYears.reduce(
       (obj, month) => {
-        const admissions = subordinates.filter((subordinate: User) =>
+        const admissions = subordinates.filter((subordinate: Users) =>
           String(formatDate(subordinate.admission_date)).includes(month)
         ).length;
 
         const resignations = subordinates.filter(
-          (subordinate: User) =>
+          (subordinate: Users) =>
             subordinate.resignation_date &&
             String(formatDate(subordinate.resignation_date)).includes(month)
         ).length;
