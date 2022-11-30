@@ -15,13 +15,27 @@ export default class ReportService {
 
     const subordinates = await UserRepository.findSubordinates(id);
 
+    const totalActiveSubordinates = subordinates.filter(
+      (subordinate: User) => subordinate.status === "ativo"
+    ).length;
+
+    const totalInactiveSubordinates =
+      subordinates.length - totalActiveSubordinates;
+
+    const directSubordinates = subordinates.filter(
+      (subordinate: User) =>
+        subordinate.id !== id && subordinate.manager_email === user.email
+    ).length;
+
+    const indirectSubordinates = subordinates.length - directSubordinates - 1;
+
     const monthsByYears = monthsArrayFromAnInitialYearToNow(
       subordinates[0].admission_date
     );
 
     let activeSubordinates = 0;
 
-    return monthsByYears.reduce(
+    const reportTurnoverAndHeadcount = monthsByYears.reduce(
       (obj, month) => {
         const admissions = subordinates.filter((subordinate: User) =>
           String(formatDate(subordinate.admission_date)).includes(month)
@@ -48,5 +62,13 @@ export default class ReportService {
       },
       { headcount: [], turnover: [] }
     );
+
+    return {
+      ...reportTurnoverAndHeadcount,
+      totalActiveSubordinates,
+      totalInactiveSubordinates,
+      directSubordinates,
+      indirectSubordinates,
+    };
   }
 }

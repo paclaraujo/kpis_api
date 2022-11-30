@@ -20,14 +20,14 @@ describe("Given ReportService", () => {
     describe("when id passed exists on DB", () => {
       it("should return report info", async () => {
         jest.spyOn(UserRepository, "findById").mockResolvedValueOnce({
-          id: 0,
-          status: "ativo",
-          name: "Danielle Winters",
-          email: "daniellewinters@kpis.tech",
-          manager_email: null,
-          admission_date: new Date("2021-10-06T03:00:00.000Z"),
-          resignation_date: null,
-          role: "Diretor",
+          id: 4,
+          status: "inativo",
+          name: "Mitchell Peters",
+          email: "mitchellpeters@kpis.tech",
+          manager_email: "sharonbarr@kpis.tech",
+          admission_date: new Date("2022-03-16T03:00:00.000Z"),
+          resignation_date: new Date("2022-07-14T03:00:00.000Z"),
+          role: "Engenheiro",
         });
 
         jest.spyOn(UserRepository, "findSubordinates").mockResolvedValueOnce([
@@ -63,9 +63,9 @@ describe("Given ReportService", () => {
           },
         ]);
 
-        const report = await ReportService.getReport(0);
-        expect(UserRepository.findById).toHaveBeenCalledWith(0);
-        expect(UserRepository.findSubordinates).toHaveBeenCalledWith(0);
+        const report = await ReportService.getReport(4);
+        expect(UserRepository.findById).toHaveBeenCalledWith(4);
+        expect(UserRepository.findSubordinates).toHaveBeenCalledWith(4);
         expect(report).toEqual({
           headcount: [
             { x: "01/2022", y: "0" },
@@ -95,6 +95,10 @@ describe("Given ReportService", () => {
             { x: "11/2022", y: "0" },
             { x: "12/2022", y: "0" },
           ],
+          directSubordinates: 2,
+          indirectSubordinates: 0,
+          totalActiveSubordinates: 2,
+          totalInactiveSubordinates: 1,
         });
       });
     });
