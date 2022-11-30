@@ -35,7 +35,7 @@ npm install
 3. Para subir o banco de dados:
 
 ```
-sudo docker compose-up
+sudo docker-compose up
 ```
 
 4. Para rodar api local:
