@@ -38,16 +38,16 @@ npm install
 sudo docker compose-up
 ```
 
-4. Para inserir os dados necessários no banco:
-
-```
-npm run migrate
-```
-
-5. Para rodar api local:
+4. Para rodar api local:
 
 ```
 npm run dev
+```
+
+5. Para inserir os dados necessários no banco:
+
+```
+npm run migrate
 ```
 
 ## Documentação de rotas
