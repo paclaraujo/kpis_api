@@ -15,32 +15,37 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [ ] Injeção de dependências
 - [ ] Testes de integração
 
-
 ## 💻 Pré-requisitos
 
 - [Docker](https://www.docker.com/)
 - [Node.js](https://nodejs.org/en/)
 
-## 🚀 Instalando KPIS_API
+## 🚀 Rodando a KPIS_API
 
 Para instalar a KPIS_API, siga estas etapas:
 
-Instalação de dependências do repositório:
+1. Instale de dependências do repositório:
+
 ```
 npm install
 ```
 
-Para subir o banco de dados:
+2. Crie o arquivo .env com as seguintes variáveis de ambiente existente no arquivo .env.example
+
+3. Para subir o banco de dados:
+
 ```
 sudo docker compose-up
 ```
 
-Para inserir os dados necessários no banco:
+4. Para inserir os dados necessários no banco:
+
 ```
 npm run migrate
 ```
 
-Para rodar api local:
+5. Para rodar api local:
+
 ```
 npm run dev
 ```
