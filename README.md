@@ -30,7 +30,7 @@ Para instalar a KPIS_API, siga estas etapas:
 npm install
 ```
 
-2. Crie o arquivo .env com as seguintes variáveis de ambiente existente no arquivo .env.example
+2. Crie o arquivo .env com as variáveis de ambiente existente no arquivo .env.example
 
 3. Para subir o banco de dados:
 
