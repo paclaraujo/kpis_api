@@ -24,7 +24,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 Para instalar a KPIS_API, siga estas etapas:
 
-1. Instale de dependências do repositório:
+1. Instale as dependências do repositório:
 
 ```
 npm install
